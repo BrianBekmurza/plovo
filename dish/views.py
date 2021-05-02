@@ -37,3 +37,15 @@ class DishUpdateAPIView(APIView):
             return Response(data=data)
         return Response(data=serializer.errors)
 
+class DishDetailAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        dish_object = Dish.objects.get(pk=kwargs.get('pk'))
+        serializer = DishSerializer(instance=dish_object)
+        return Response(data=serializer.data)
+
+
+class DishDeleteAPIView(APIView):
+    def delete(self, request, *args, **kwargs):
+        dish = Dish.objects.get(pk=kwargs.get('pk'))
+        dish.delete()
+        return Response(data={'message': 'Блюдо было удалено'})
